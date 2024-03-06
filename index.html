@@ -15,14 +15,15 @@
     const ws = new WebSocket('ws://localhost:3000');
 
     ws.onmessage = function (event) {
+      const data = JSON.parse(event.data);
       const chatDiv = document.getElementById('chat');
-      chatDiv.innerHTML += `<p>${event.data}</p>`;
+      chatDiv.innerHTML += `<p><strong>${data.sender}:</strong> ${data.message}</p>`;
     };
 
     function sendMessage() {
       const messageInput = document.getElementById('messageInput');
       const message = messageInput.value;
-      ws.send(message);
+      ws.send(JSON.stringify({ sender: 'You', message: message }));
       messageInput.value = '';
     }
   </script>
